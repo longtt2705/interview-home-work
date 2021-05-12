@@ -2,11 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import { Provider } from "react-redux";
+import { store, persistor, sagaMiddleware } from "./redux/store/store";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { rootSaga } from "./redux/saga";
+import { PersistGate } from "redux-persist/integration/react";
+
+sagaMiddleware.run(rootSaga); // Hàm này là chạy các saga
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>,
   document.getElementById("root")
 );
 
