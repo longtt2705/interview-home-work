@@ -11,7 +11,7 @@ function App(props) {
         <NavigationBar />
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/:id" component={DetailPage} />
+          <Route exact path="/post/:id" component={DetailPage} />
         </Switch>
       </div>
     </Router>

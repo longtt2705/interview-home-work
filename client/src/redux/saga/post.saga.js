@@ -2,19 +2,25 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 import * as type from "../type";
 
-function getApi(url) {
+function getApi(url, params) {
   return axios
-    .get(url, {})
-    .then((res) => res.data)
+    .get(url, {
+      params: params,
+    })
+    .then((respone) => respone.data)
     .catch((e) => {
       throw e;
     });
 }
 
-function* getPosts() {
+function* getPosts(action) {
   try {
-    const posts = yield call(getApi, "/posts/");
-    yield put({ type: type.GET_POST_SUCCESS, posts: posts });
+    const res = yield call(getApi, "/posts/", action.payload);
+    yield put({
+      type: type.GET_POST_SUCCESS,
+      posts: res.posts,
+      hasMore: res.hasMore,
+    });
   } catch (e) {
     yield put({ type: type.GET_POST_FAILED, message: e.message });
   }

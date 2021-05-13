@@ -1,5 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
+const moment = require("moment");
 
 function Comments({ comment }) {
   return (
@@ -15,26 +16,11 @@ function Comments({ comment }) {
       </div>
       <div className="col-sm">
         <div className="mt-1">
-          <b>user.name</b>
+          <b>{comment.owner.username}</b>
         </div>
-        <p>
-          id ask busy. Reserved opinions fat him nay position. Breakfast as
-          zealously incommode do agreeable furniture. One too nay led fanny
-          allow plate. Ever man are put down his very. And marry may table him
-          avoid. Hard sell it were into it upon. He forbade affixed parties of
-          assured to me windows. Happiness him nor she disposing provision. Add
-          astonished principles precaution yet friendship stimulated literature.
-          State thing might stand one his plate. Offending or extremity
-          therefore so difficult he on provision. Tended depart turned not are.
-          Effects present letters inquiry no an removed or friends. Desire
-          behind latter me though in. Supposing shameless am he engrossed up
-          additions. My possible peculiar together to. Desire so better am
-          cannot he up before points. Remember mistaken opinions it pleasure of
-          debating. Court front maids forty if aware their at. Chicken use are
-          pressed removed
-        </p>
+        <p>{comment.content}</p>
         <span style={{ fontSize: "10pt" }}>
-          <i>Created at: comment.created_at</i>
+          <i>Created at: {moment(comment.created_at).format("ll")}</i>
         </span>
         <hr />
       </div>
