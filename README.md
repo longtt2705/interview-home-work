@@ -1,6 +1,6 @@
 # How to use
 
-`<cd ./server && npm i && npm start \ cd ./client && npm i && npm start \>`
+`cd ./server && npm i && npm start <br/> cd ./client && npm i && npm start`
 
 <!-- # Zigvy Technical Assignment Interview
 
