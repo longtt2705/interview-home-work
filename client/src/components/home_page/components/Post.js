@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Accordion, Badge, Card, Container } from "react-bootstrap";
-import Comments from "./Comments";
+import moment from "moment";
+import Comment from "./Comments";
+import { Collapse } from "react-collapse";
 
-function Post({ post, comments }) {
+function Post({ post }) {
+  const content = post.content.split(/\s+/);
+  const [isOpen, setOpen] = useState(false);
   return (
     <Container className="d-flex flex-column align-items-center mt-lg-4">
       <Card
@@ -17,10 +21,10 @@ function Post({ post, comments }) {
           <div className="w-100 mb-lg-2">
             <div className="d-inline-block">
               <h6>
-                Author: <i>{post.author}</i>
+                Author: <i>{post.author.username}</i>
               </h6>
               <h6>
-                Created at: <i>{post.created_at}</i>
+                Created at: <i>{moment(post.created_at).format("ll")}</i>
               </h6>
             </div>
             <div className="float-right">
@@ -38,21 +42,24 @@ function Post({ post, comments }) {
               </Badge>
             </div>
           </div>
-          <Card.Text>{post.content}</Card.Text>
-          {/* <Accordion>
+          <Card.Text>
+            {content && content.length > 100
+              ? content.slice(0, 101).join(" ") + " ..."
+              : post.content}
+          </Card.Text>
+          <Accordion>
             <Card>
-              <Accordion.Toggle as={Card.Header} eventKey="0">
-                {comments.length} replies
-              </Accordion.Toggle>
-              <Accordion.Collapse eventKey="0">
-                {comments.length > 0 &&
-                  comments.map((comment) => (
-                    <Comments key={comment.id} comment={comment} />
+              <button onClick={() => setOpen(!isOpen)}></button>
+              <Collapse isOpened={isOpen}>
+                {" "}
+                {post.comments.length > 0 &&
+                  post.comments.map((comment) => (
+                    <Comment key={comment._id} comment={comment.content} />
                   ))}
-                {comments.length === 0 && <p>No comment yet</p>}
-              </Accordion.Collapse>
+                {post.comments.length === 0 && <p>No comment yet</p>}
+              </Collapse>
             </Card>
-          </Accordion> */}
+          </Accordion>
         </Card.Body>
       </Card>
     </Container>

@@ -2,11 +2,9 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 import * as type from "../type";
 
-const apiUrl = "https://jsonplaceholder.typicode.com/posts";
-
-function getApi() {
+function getApi(url) {
   return axios
-    .get(apiUrl, {})
+    .get(url, {})
     .then((res) => res.data)
     .catch((e) => {
       throw e;
@@ -15,7 +13,7 @@ function getApi() {
 
 function* getPosts() {
   try {
-    const posts = yield call(getApi);
+    const posts = yield call(getApi, "/posts/");
     yield put({ type: type.GET_POST_SUCCESS, posts: posts });
   } catch (e) {
     yield put({ type: type.GET_POST_FAILED, message: e.message });

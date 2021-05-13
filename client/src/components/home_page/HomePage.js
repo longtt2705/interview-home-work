@@ -17,9 +17,8 @@ function HomePage() {
     <div>
       {loading && <p>Loading...</p>}
       {posts.length > 0 &&
-        posts.map((post, index) => {
-          if (index > 10) return null;
-          return <Post key={post.id} post={post} comments={[]} />;
+        posts.map((post) => {
+          return <Post key={post._id} post={post} />;
         })}
       {posts.length === 0 && !loading && <p>No Posts available</p>}
       {error && console.log(error)}
