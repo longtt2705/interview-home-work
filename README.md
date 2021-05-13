@@ -1,4 +1,9 @@
-# Zigvy Technical Assignment Interview
+# How to use
+
+cd ./server && npm i && npm start
+cd ./client && npm i && npm start
+
+<!-- # Zigvy Technical Assignment Interview
 
 ## Description
 - This is a **Small Project Test** for online interview at Zigvy Corp. This assignment has 2 main tasks: **Front-end** and **Back-end**. You will be required to complete each tasks with your applied position. For short, you can check the list below
@@ -71,4 +76,4 @@
   - API should have a well design
 - Additional information
   - You can use pre-defined json data as a reference
-  - NodeJS & ExpressJS boilerplate or other is accepted
+  - NodeJS & ExpressJS boilerplate or other is accepted -->
