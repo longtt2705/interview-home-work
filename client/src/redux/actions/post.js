@@ -10,3 +10,23 @@ export function getPosts(offset, limit = LIMIT) {
     },
   };
 }
+
+export function getPostById(id) {
+  return {
+    type: type.GET_POST_BY_ID_REQUESTED,
+    payload: {
+      id: id,
+    },
+  };
+}
+
+export function searchPosts(searchValue, offset, limit = LIMIT) {
+  return {
+    type: type.SEARCH_POSTS_REQUESTED,
+    payload: {
+      value: searchValue,
+      limit: limit,
+      offset: offset,
+    },
+  };
+}

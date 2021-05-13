@@ -1,5 +1,5 @@
-import { call, put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
+import { call, put, takeLatest } from "redux-saga/effects";
 import * as type from "../type";
 
 function getApi(url, params) {
@@ -13,21 +13,60 @@ function getApi(url, params) {
     });
 }
 
-function* getPosts(action) {
+function* getPostsWorker(action) {
+  console.log(action.payload);
   try {
-    const res = yield call(getApi, "/posts/", action.payload);
+    const res = yield call(getApi, "/posts", action.payload);
     yield put({
-      type: type.GET_POST_SUCCESS,
+      type: type.GET_POSTS_SUCCESS,
       posts: res.posts,
       hasMore: res.hasMore,
     });
   } catch (e) {
-    yield put({ type: type.GET_POST_FAILED, message: e.message });
+    yield put({ type: type.GET_POSTS_FAILED, message: e.message });
   }
 }
 
-function* postSaga() {
-  yield takeEvery(type.GET_POSTS_REQUESTED, getPosts);
+function* getPostByIdWorker(action) {
+  console.log(action.payload);
+
+  try {
+    const post = yield call(getApi, `/posts/${action.payload.id}`);
+    yield put({
+      type: type.GET_POST_BY_ID_SUCCESS,
+      post: post,
+    });
+  } catch (e) {
+    yield put({ type: type.GET_POSTS_FAILED, message: e.message });
+  }
 }
 
-export default postSaga;
+function* getPostsByTitleWorker(action) {
+  console.log(action.payload);
+  try {
+    const res = yield call(
+      getApi,
+      `/posts/search/?search=${action.payload.value}`,
+      action.payload
+    );
+    yield put({
+      type: type.GET_SEARCH_POSTS_SUCCESS,
+      posts: res.posts,
+      hasMore: res.hasMore,
+    });
+  } catch (e) {
+    yield put({ type: type.GET_POSTS_FAILED, message: e.message });
+  }
+}
+
+export function* getPostsWatcher() {
+  yield takeLatest(type.GET_POSTS_REQUESTED, getPostsWorker);
+}
+
+export function* getPostsByTitleWatcher() {
+  yield takeLatest(type.SEARCH_POSTS_REQUESTED, getPostsByTitleWorker);
+}
+
+export function* getPostByIdWatcher() {
+  yield takeLatest(type.GET_POST_BY_ID_REQUESTED, getPostByIdWorker);
+}

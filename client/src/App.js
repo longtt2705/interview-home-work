@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import DetailPage from "./components/detail_page/DetailPage";
 import HomePage from "./components/home_page/HomePage";
 import NavigationBar from "./components/NavigationBar";
+import SearchPage from "./components/search_page/SearchPage";
 
 function App(props) {
   return (
@@ -11,6 +12,7 @@ function App(props) {
         <NavigationBar />
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/post/search/:search" component={SearchPage} />
           <Route exact path="/post/:id" component={DetailPage} />
         </Switch>
       </div>

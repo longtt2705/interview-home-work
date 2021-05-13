@@ -1,6 +1,14 @@
-import { all } from "redux-saga/effects";
-import postSaga from "./post.saga";
+import { all } from "@redux-saga/core/effects";
+import {
+  getPostByIdWatcher,
+  getPostsByTitleWatcher,
+  getPostsWatcher,
+} from "./post.saga";
 
 export function* rootSaga() {
-  yield all([postSaga()]);
+  yield all([
+    getPostByIdWatcher(),
+    getPostsWatcher(),
+    getPostsByTitleWatcher(),
+  ]);
 }

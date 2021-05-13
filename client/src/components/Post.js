@@ -4,8 +4,9 @@ import moment from "moment";
 import Comment from "./Comments";
 import { Collapse } from "react-collapse";
 import { Link } from "react-router-dom";
+import { AiOutlineCaretDown } from "react-icons/ai";
 
-function Post({ post }) {
+function Post({ post, isTruncated = true }) {
   const content = post.content.split(/\s+/);
   const [isOpen, setOpen] = useState(false);
 
@@ -40,7 +41,7 @@ function Post({ post }) {
             </div>
           </div>
           <Card.Text>
-            {content && content.length > 100 ? (
+            {isTruncated && content && content.length > 100 ? (
               <div>
                 {content.slice(0, 101).join(" ") + " ..."}
                 <Link to={`/post/${post._id}`}> Read more</Link>
@@ -57,7 +58,8 @@ function Post({ post }) {
                   style={{ cursor: "pointer" }}
                 >
                   {post.comments.length.toString() +
-                    (post.comments.length > 1 ? " replies" : " reply")}
+                    (post.comments.length > 1 ? " replies " : " reply ")}
+                  <AiOutlineCaretDown />
                 </div>
               </Card.Header>
 

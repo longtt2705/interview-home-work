@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../../redux/actions/post";
-import Post from "./components/Post";
+import Post from "../Post";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 function HomePage() {
   const posts = useSelector((state) => state.post.posts);
@@ -12,15 +14,22 @@ function HomePage() {
 
   useEffect(() => {
     dispatch(getPosts(0));
-  }, [dispatch]);
-  localStorage.clear();
+  }, []);
+
+  const handleNext = useCallback(() => {
+    dispatch(getPosts(posts.length));
+  }, []);
 
   return (
     <InfiniteScroll
       dataLength={posts.length} //This is important field to render the next data
-      next={() => dispatch(getPosts(posts.length))}
+      next={handleNext}
       hasMore={hasMore}
-      loader={<div className="text-center mt-lg-4">Loading...</div>}
+      loader={
+        <div className="text-center mt-lg-4">
+          <Loader type="TailSpin" color="#00BFFF" height={40} width={40} />
+        </div>
+      }
       endMessage={
         <p style={{ textAlign: "center" }}>
           <b> You have seen it all</b>
@@ -30,7 +39,11 @@ function HomePage() {
     >
       {posts.length > 0 &&
         posts.map((post) => <Post key={post._id} post={post} />)}
-      {posts.length === 0 && <p>No Posts available</p>}
+      {posts.length === 0 && (
+        <p style={{ textAlign: "center" }}>
+          <b> No Post available</b>
+        </p>
+      )}
       {error && console.log(error)}
     </InfiniteScroll>
   );
